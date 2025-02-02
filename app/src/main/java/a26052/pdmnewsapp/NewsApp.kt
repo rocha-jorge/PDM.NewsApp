@@ -1,5 +1,7 @@
 package a26052.pdmnewsapp
 
-// HILT
-class NewsApp {
-}
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
+class NewsApp : Application()

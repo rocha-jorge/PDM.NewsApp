@@ -1,17 +1,14 @@
-
 plugins {
-
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.dagger.hilt)
-    id("kotlin-kapt")
     alias(libs.plugins.kotlin.compose) // Required for annotation processing
+    alias(libs.plugins.ksp)  // ✅ Replacing kapt with KSP
+    alias(libs.plugins.kotlin.serialization) // ✅ Ensure serialization is applied
 }
 
 android {
-
-    namespace = "a26052.pdmnewsapp" // Add this line
-
+    namespace = "a26052.pdmnewsapp"
     compileSdk = 35
 
     defaultConfig {
@@ -39,11 +36,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17  // ✅ Force Java 17
+        targetCompatibility = JavaVersion.VERSION_17  // ✅ Force Java 17
     }
+
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"  // ✅ Ensure Kotlin uses Java 17
     }
 }
 
@@ -70,12 +68,16 @@ dependencies {
     // Room Database
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler) // ✅ Ensure KSP is used for Room
+
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    kapt(libs.androidx.room.compiler)
 
     // Dependency Injection (Dagger Hilt)
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler) // ✅ Ensure Hilt uses KSP
+
+    // ✅ Kotlin Serialization
+    implementation(libs.kotlinx.serialization.json) // ✅ Ensure Serialization is included
 
     // Testing
     testImplementation(libs.junit)

@@ -1,4 +1,17 @@
 package a26052.pdmnewsapp.data.local
 
-class ArticleDao {
+import androidx.room.*
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface ArticleDao {
+
+    @Query("SELECT * FROM articles")
+    fun getAllArticles(): List<ArticleEntity> // Should return a list of entities
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertArticle(article: ArticleEntity): Long // Return type should be Long (ID of inserted row)
+
+    @Delete
+    suspend fun deleteArticle(article: ArticleEntity): Int // Return type should be Int (number of rows deleted)
 }

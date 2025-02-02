@@ -1,4 +1,9 @@
 package a26052.pdmnewsapp.data.local
 
-abstract data class AppDatabase {
+import androidx.room.Database
+import androidx.room.RoomDatabase
+
+@Database(entities = [ArticleEntity::class], version = 1, exportSchema = false)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun articleDao(): ArticleDao
 }
