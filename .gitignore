@@ -1,0 +1,71 @@
+# Gradle files
+.gradle/
+build/
+
+# Local configuration files
+/local.properties
+/.idea/
+/out/
+
+# Gradle Wrapper files
+/gradle/wrapper/gradle-wrapper.properties
+/gradle/wrapper/gradle-wrapper.jar
+
+# Log files
+*.log
+
+# Android Studio Generated files
+/captures/
+/.externalNativeBuild/
+/*.iml
+.idea/
+/*.hprof
+
+# Keystore files
+*.jks
+*.keystore
+
+# Miscellaneous
+.DS_Store
+*.swp
+*.swo
+
+# Ignore unit test files
+*/build/
+*.apk
+*.ap_
+*.db
+*.cach
+*.class
+*.dex
+*.jar
+*.war
+*.ear
+*.class
+*.bin
+*.dll
+*.so
+*.exe
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.out
+*.iws
+*.jar
+
+# Kotlin specific
+*.kt_metadata
+.idea/
+*.ipr
+*.iws
+.DS_Store
+
+# Jetpack Compose preview-specific
+/.previews/
+
+# Ignore generated room database schema
+/schemas/
+
+# Exclude Android Bundle (.aab)
+/*.aab
