@@ -10,29 +10,23 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import a26052.pdmnewsapp.domain.model.Article
 import androidx.compose.foundation.clickable
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookmarksScreen(
-    bookmarksViewModel: BookmarksViewModel = viewModel(),
+    viewModel: BookmarksViewModel = hiltViewModel(),
     onArticleClick: (Article) -> Unit
 ) {
-    val savedArticles by bookmarksViewModel.savedArticles.collectAsState()
+    val savedArticles by viewModel.bookmarkedArticles.collectAsState()
 
-    Scaffold(
-        topBar = { TopAppBar(title = { Text("Bookmarks") }) }
-    ) { padding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-        ) {
-            items(savedArticles) { article ->
-                ArticleItem(article = article, onClick = onArticleClick)
-            }
+    LazyColumn {
+        items(savedArticles) { article: Article ->
+            ArticleItem(article, onClick = { onArticleClick(article) })
         }
     }
 }
+
 
 @Composable
 fun ArticleItem(article: Article, onClick: (Article) -> Unit) {

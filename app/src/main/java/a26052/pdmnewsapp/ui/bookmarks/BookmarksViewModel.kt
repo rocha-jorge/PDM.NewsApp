@@ -6,7 +6,7 @@ import a26052.pdmnewsapp.domain.model.Article
 import a26052.pdmnewsapp.domain.usecase.GetSavedArticlesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,17 +15,13 @@ class BookmarksViewModel @Inject constructor(
     private val getSavedArticlesUseCase: GetSavedArticlesUseCase
 ) : ViewModel() {
 
-    private val _savedArticles = MutableStateFlow<List<Article>>(emptyList())
-    val savedArticles: StateFlow<List<Article>> = _savedArticles
+    private val _bookmarkedArticles = MutableStateFlow<List<Article>>(emptyList())
+    val bookmarkedArticles = _bookmarkedArticles.asStateFlow()
 
     init {
-        fetchSavedArticles()
-    }
-
-    private fun fetchSavedArticles() {
         viewModelScope.launch {
-            getSavedArticlesUseCase.execute().collect { articles ->
-                _savedArticles.value = articles
+            getSavedArticlesUseCase().collect { articles ->
+                _bookmarkedArticles.value = articles
             }
         }
     }

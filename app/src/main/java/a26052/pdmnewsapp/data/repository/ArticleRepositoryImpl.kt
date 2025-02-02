@@ -48,13 +48,13 @@ class ArticlesRepositoryImpl @Inject constructor(
 
     override fun getSavedArticlesFlow(): Flow<List<Article>> {
         return dao.getAllArticlesFlow().map { entities ->
-            entities.map {
+            entities.map { entity ->
                 Article(
-                    id = it.id,
-                    title = it.title,
-                    description = it.description,
-                    imageUrl = it.imageUrl,
-                    url = it.url
+                    id = entity.id,
+                    title = entity.title,
+                    description = entity.description,
+                    imageUrl = entity.imageUrl,
+                    url = entity.url
                 )
             }
         }

@@ -8,7 +8,5 @@ import javax.inject.Inject
 class GetSavedArticlesUseCase @Inject constructor(
     private val repository: ArticlesRepository
 ) {
-    fun execute(): Flow<List<Article>> {
-        return repository.getSavedArticlesFlow() // ✅ Ensure this method exists in your repository
-    }
+    operator fun invoke(): Flow<List<Article>> = repository.getSavedArticlesFlow()
 }

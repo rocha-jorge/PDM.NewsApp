@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "ipca.example.newsapp"
+    namespace = "a26052.pdmnewsapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "ipca.example.newsapp"
+        applicationId = "a26052.pdmnewsapp"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
