@@ -2,9 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.dagger.hilt)
-    alias(libs.plugins.kotlin.compose) // Required for annotation processing
-    alias(libs.plugins.ksp)  // ✅ Replacing kapt with KSP
-    alias(libs.plugins.kotlin.serialization) // ✅ Ensure serialization is applied
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -36,12 +36,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17  // ✅ Force Java 17
-        targetCompatibility = JavaVersion.VERSION_17  // ✅ Force Java 17
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "17"  // ✅ Ensure Kotlin uses Java 17
+        jvmTarget = "17"
     }
 }
 
@@ -68,22 +68,19 @@ dependencies {
     // Room Database
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler) // ✅ Ensure KSP is used for Room
-
-    androidTestImplementation(platform(libs.androidx.compose.bom))
+    ksp(libs.androidx.room.compiler)
 
     // Dependency Injection (Dagger Hilt)
     implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler) // ✅ Ensure Hilt uses KSP
+    ksp(libs.hilt.compiler)
 
-    // ✅ Kotlin Serialization
-    implementation(libs.kotlinx.serialization.json) // ✅ Ensure Serialization is included
+    // Kotlin Serialization
+    implementation(libs.kotlinx.serialization.json)
 
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
