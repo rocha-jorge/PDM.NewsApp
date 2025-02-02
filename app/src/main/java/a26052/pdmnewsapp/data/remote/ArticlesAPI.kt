@@ -1,41 +1,27 @@
 package a26052.pdmnewsapp.data.remote
 
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import org.json.JSONObject
 import a26052.pdmnewsapp.domain.model.Article
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Query
 
-class ArticlesAPI {
-    private val client = OkHttpClient()
+interface ArticlesAPI {
 
-    fun fetchArticles(): List<Article> {
-        val request = Request.Builder()
-            .url("https://newsapi.org/v2/top-headlines?country=us&category=sports&apiKey=YOUR_API_KEY")
-            .build()
+    @GET("latest")
+    suspend fun fetchArticles(
+        @Query("apikey") apiKey: String
+    ): NewsResponse
 
-        val response = client.newCall(request).execute()
-        val articles = mutableListOf<Article>()
+    companion object {
+        private const val BASE_URL = "https://newsdata.io/api/1/"
 
-        if (response.isSuccessful) {
-            val body = response.body?.string()
-            body?.let {
-                val json = JSONObject(it)
-                val jsonArray = json.getJSONArray("articles")
-
-                for (i in 0 until jsonArray.length()) {
-                    val jsonObject = jsonArray.getJSONObject(i)
-                    val article = Article(
-                        id = null, // Null since it’s not stored in DB yet
-                        title = jsonObject.getString("title"),
-                        description = jsonObject.optString("description"),
-                        imageUrl = jsonObject.optString("urlToImage"),
-                        url = jsonObject.getString("url")
-                    )
-                    articles.add(article)
-                }
-            }
+        fun create(): ArticlesAPI {
+            return Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ArticlesAPI::class.java)
         }
-
-        return articles
     }
 }

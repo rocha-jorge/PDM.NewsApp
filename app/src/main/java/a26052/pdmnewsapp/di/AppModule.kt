@@ -1,3 +1,5 @@
+package a26052.pdmnewsapp.di
+
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
@@ -9,13 +11,22 @@ import javax.inject.Singleton
 import a26052.pdmnewsapp.data.local.AppDatabase
 import a26052.pdmnewsapp.data.local.ArticleDao
 import a26052.pdmnewsapp.data.remote.ArticlesAPI
-import a26052.pdmnewsapp.data.repository.ArticlesRepositoryImpl // ✅ Corrected package path
+import a26052.pdmnewsapp.data.repository.ArticlesRepositoryImpl
 import a26052.pdmnewsapp.domain.repository.ArticlesRepository
 import a26052.pdmnewsapp.domain.usecase.GetArticlesUseCase
+import a26052.pdmnewsapp.domain.usecase.GetSavedArticlesUseCase
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    @Singleton
+    fun provideGetSavedArticlesUseCase(repository: ArticlesRepository): GetSavedArticlesUseCase {
+        return GetSavedArticlesUseCase(repository)
+    }
 
     @Provides
     @Singleton
@@ -40,13 +51,17 @@ object AppModule {
     @Provides
     @Singleton
     fun provideArticlesAPI(): ArticlesAPI {
-        return ArticlesAPI.create() // Ensure this matches how you initialize API service
+        return Retrofit.Builder()
+            .baseUrl("https://newsdata.io/api/1/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ArticlesAPI::class.java)
     }
 
     @Provides
     @Singleton
     fun provideArticlesRepository(api: ArticlesAPI, dao: ArticleDao): ArticlesRepository {
-        return ArticlesRepositoryImpl(api, dao) // ✅ Pass API instance
+        return ArticlesRepositoryImpl(api, dao)
     }
 
     @Provides

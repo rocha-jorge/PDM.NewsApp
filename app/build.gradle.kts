@@ -74,9 +74,9 @@ dependencies {
     // define a BOM and its version
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
 
-    // define any required OkHttp artifacts without version
-    implementation("com.squareup.okhttp3:okhttp")
-    implementation("com.squareup.okhttp3:logging-interceptor")
+    // ✅ OkHttp (Optional, for Logging)
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     // ViewModel
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
@@ -85,6 +85,7 @@ dependencies {
 
     implementation("io.coil-kt.coil3:coil-compose:3.0.0-rc01")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.0-rc01")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     // room
     val roomVersion = "2.6.1"
@@ -98,5 +99,13 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     implementation(libs.kotlinx.serialization.json)
+
+    // ✅ Add Retrofit Dependencies
+    implementation("com.squareup.retrofit2:retrofit:2.9.0") // Retrofit Core
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0") // ✅ Gson Converter
+
+
+    // ✅ Ensure Kotlin Serialization is included
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
 }

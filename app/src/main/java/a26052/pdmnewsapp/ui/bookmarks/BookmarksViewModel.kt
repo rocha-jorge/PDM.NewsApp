@@ -24,7 +24,7 @@ class BookmarksViewModel @Inject constructor(
 
     private fun fetchSavedArticles() {
         viewModelScope.launch {
-            getSavedArticlesUseCase { articles ->
+            getSavedArticlesUseCase.execute().collect { articles ->
                 _savedArticles.value = articles
             }
         }
