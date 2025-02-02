@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import a26052.pdmnewsapp.domain.model.Article
 import a26052.pdmnewsapp.domain.usecase.GetArticlesUseCase
+import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,7 +25,20 @@ class HomeViewModel @Inject constructor(
 
     private fun fetchArticles() {
         viewModelScope.launch {
-            _articles.value = getArticlesUseCase()
+            try {
+                val response = getArticlesUseCase()
+                Log.d("API_RESPONSE_RAW", "🌐 Full API response: $response")
+
+                if (response.isNotEmpty()) {
+                    _articles.value = response
+                } else {
+                    Log.w("API_WARNING", "⚠️ No articles found in the response!")
+                }
+
+            } catch (e: Exception) {
+                Log.e("API_ERROR", "❌ Error fetching articles: ${e.message}")
+            }
         }
     }
+
 }

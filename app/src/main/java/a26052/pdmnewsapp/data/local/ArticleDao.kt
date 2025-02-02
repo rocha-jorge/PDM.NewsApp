@@ -7,14 +7,14 @@ import kotlinx.coroutines.flow.Flow
 interface ArticleDao {
 
     @Query("SELECT * FROM articles")
-    fun getAllArticlesFlow(): Flow<List<ArticleEntity>>
-
+    fun getAllArticlesFlow(): Flow<List<ArticleEntity>> // ✅ Fix name
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertArticle(article: ArticleEntity): Long // Return type should be Long (ID of inserted row)
+    suspend fun insertArticle(article: ArticleEntity): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(articles: List<ArticleEntity>) // ✅ Ensure this exists
 
     @Delete
-    suspend fun deleteArticle(article: ArticleEntity): Int // Return type should be Int (number of rows deleted)
-
-
+    suspend fun deleteArticle(article: ArticleEntity): Int // ✅ Ensure correct type
 }

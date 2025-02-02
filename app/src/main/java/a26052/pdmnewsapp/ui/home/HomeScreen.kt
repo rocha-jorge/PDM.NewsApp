@@ -6,12 +6,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import a26052.pdmnewsapp.domain.model.Article
 import androidx.hilt.navigation.compose.hiltViewModel
+import a26052.pdmnewsapp.domain.model.Article
+import android.util.Log
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -21,16 +20,27 @@ fun HomeScreen(
 ) {
     val articles by homeViewModel.articles.collectAsState()
 
+    Log.d("UI_UPDATE", "📜 Articles count: ${articles.size}")
+
     Scaffold(
         topBar = { TopAppBar(title = { Text("News") }) }
     ) { padding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-        ) {
-            items(articles) { article ->
-                ArticleItem(article = article, onArticleClick)
+        if (articles.isEmpty()) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = androidx.compose.ui.Alignment.Center
+            ) {
+                Text(text = "No Articles Found")
+            }
+        } else {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+            ) {
+                items(articles) { article ->
+                    ArticleItem(article = article, onClick = onArticleClick)
+                }
             }
         }
     }
