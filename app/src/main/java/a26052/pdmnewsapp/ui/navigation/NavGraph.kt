@@ -5,7 +5,6 @@ import a26052.pdmnewsapp.domain.repository.ArticlesRepository
 import a26052.pdmnewsapp.ui.bookmarks.BookmarksScreen
 import a26052.pdmnewsapp.ui.bookmarks.BookmarksViewModel
 import a26052.pdmnewsapp.ui.details.ArticleDetailScreen
-import a26052.pdmnewsapp.ui.home.HomeScreen
 import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.Composable
@@ -22,6 +21,7 @@ fun NavGraph(navController: NavHostController, repository: ArticlesRepository) {
     NavHost(navController, startDestination = "home") {
         composable("home") {
             HomeScreen(
+                navController = navController, // ✅ Pass navController
                 onArticleClick = { article ->
                     val safeArticle = article.copy(image_url = article.image_url ?: "")
                     val articleJson = Uri.encode(Gson().toJson(safeArticle))
@@ -44,7 +44,6 @@ fun NavGraph(navController: NavHostController, repository: ArticlesRepository) {
             )
         }
 
-
         composable(
             route = "details/{article}",
             arguments = listOf(navArgument("article") { type = NavType.StringType })
@@ -58,4 +57,5 @@ fun NavGraph(navController: NavHostController, repository: ArticlesRepository) {
         }
     }
 }
+
 
