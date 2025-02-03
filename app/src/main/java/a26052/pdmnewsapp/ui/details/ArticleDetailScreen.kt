@@ -8,23 +8,27 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.rememberAsyncImagePainter
-import kotlinx.coroutines.launch
 
 @Composable
-fun ArticleDetailScreen(article: Article, repository: ArticlesRepository) {
-    val scope = rememberCoroutineScope() // ✅ Required for suspend function calls
-
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+fun ArticleDetailScreen(
+    article: Article,
+    repository: ArticlesRepository,
+    modifier: Modifier = Modifier // ✅ Accept modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp) // ✅ Apply modifier
+    ) {
         Text(
             text = article.title,
             fontSize = 20.sp,
@@ -36,28 +40,17 @@ fun ArticleDetailScreen(article: Article, repository: ArticlesRepository) {
             Image(
                 painter = rememberAsyncImagePainter(imageUrl),
                 contentDescription = "Article Image",
-                modifier = Modifier.fillMaxWidth().height(200.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .clip(RoundedCornerShape(8.dp))
             )
         }
 
         Text(
-            text = article.description ?: "No Description",
-            style = MaterialTheme.typography.bodySmall,
+            text = article.description ?: "No description available",
             fontSize = 16.sp,
-            modifier = Modifier.padding(12.dp)
+            modifier = Modifier.padding(top = 8.dp)
         )
-
-        Button(
-            onClick = {
-                scope.launch { // ✅ Ensure suspend function is called in coroutine
-                    repository.saveArticle(article)
-                }
-            },
-            modifier = Modifier.padding(top = 16.dp)
-        ) {
-            Text("Bookmark Article")
-        }
     }
 }
-
-

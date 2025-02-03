@@ -4,10 +4,14 @@ import a26052.pdmnewsapp.domain.model.Article
 import a26052.pdmnewsapp.domain.repository.ArticlesRepository
 import a26052.pdmnewsapp.ui.bookmarks.BookmarksScreen
 import a26052.pdmnewsapp.ui.bookmarks.BookmarksViewModel
+import a26052.pdmnewsapp.ui.components.MyTopBar
 import a26052.pdmnewsapp.ui.details.ArticleDetailScreen
+import a26052.pdmnewsapp.ui.home.HomeViewModel
 import android.net.Uri
-import android.util.Log
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -20,28 +24,35 @@ import com.google.gson.Gson
 fun NavGraph(navController: NavHostController, repository: ArticlesRepository) {
     NavHost(navController, startDestination = "home") {
         composable("home") {
+            val homeViewModel: HomeViewModel = hiltViewModel()
             HomeScreen(
-                navController = navController, // ✅ Pass navController
+                navController = navController,
                 onArticleClick = { article ->
                     val safeArticle = article.copy(image_url = article.image_url ?: "")
                     val articleJson = Uri.encode(Gson().toJson(safeArticle))
-                    Log.d("NAVIGATION", "Navigating to details: $articleJson")
                     navController.navigate("details/$articleJson")
-                }
+                },
+                viewModel = homeViewModel // ✅ Pass ViewModel
             )
         }
 
+
         composable("bookmarks") {
-            val viewModel: BookmarksViewModel = hiltViewModel()
-            BookmarksScreen(
-                navController = navController,
-                viewModel = viewModel,
-                onArticleClick = { article ->
-                    val safeArticle = article.copy(image_url = article.image_url ?: "")
-                    val articleJson = Uri.encode(Gson().toJson(safeArticle))
-                    navController.navigate("details/$articleJson")
-                }
-            )
+            Scaffold(
+                topBar = { MyTopBar(navController, showBackButton = true) }
+            ) { paddingValues ->
+                val viewModel: BookmarksViewModel = hiltViewModel()
+                BookmarksScreen(
+                    navController = navController,
+                    viewModel = viewModel,
+                    onArticleClick = { article ->
+                        val safeArticle = article.copy(image_url = article.image_url ?: "")
+                        val articleJson = Uri.encode(Gson().toJson(safeArticle))
+                        navController.navigate("details/$articleJson")
+                    },
+                    modifier = Modifier.padding(paddingValues) // ✅ Apply padding
+                )
+            }
         }
 
         composable(
@@ -51,9 +62,15 @@ fun NavGraph(navController: NavHostController, repository: ArticlesRepository) {
             val articleJson = backStackEntry.arguments?.getString("article") ?: ""
             val article = Gson().fromJson(articleJson, Article::class.java)
 
-            Log.d("NAVIGATION", "Opened Article Detail - Title: ${article.title}, Image URL: ${article.image_url}")
-
-            ArticleDetailScreen(article, repository) // ✅ Pass repository
+            Scaffold(
+                topBar = { MyTopBar(navController, showBackButton = true) }
+            ) { paddingValues ->
+                ArticleDetailScreen(
+                    article = article,
+                    repository = repository,
+                    modifier = Modifier.padding(paddingValues) // ✅ Apply padding
+                )
+            }
         }
     }
 }

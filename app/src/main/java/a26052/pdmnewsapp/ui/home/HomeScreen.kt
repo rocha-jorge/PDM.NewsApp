@@ -14,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,22 +23,23 @@ import androidx.navigation.NavController
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: HomeViewModel = hiltViewModel(),
-    onArticleClick: (Article) -> Unit
+    onArticleClick: (Article) -> Unit,
+    viewModel: HomeViewModel = hiltViewModel(), // ✅ Inject ViewModel
+    modifier: Modifier = Modifier
 ) {
-    val articlesState = viewModel.articles.collectAsState() // ✅ Get State
-    val articles = articlesState.value // ✅ Extract value
+    val articles by viewModel.articles.collectAsState() // ✅ Collect articles from ViewModel
 
     Scaffold(
-        topBar = { MyTopBar(navController) } // ✅ Ensure TopBar gets navController
+        topBar = { MyTopBar(navController, showBackButton = false) }
     ) { paddingValues ->
-        LazyColumn(modifier = Modifier.padding(paddingValues)) {
-            items(articles) { article ->
+        LazyColumn(modifier = modifier.padding(paddingValues)) {
+            items(articles) { article -> // ✅ Use ViewModel articles
                 ArticleItem(article = article, onClick = { onArticleClick(article) })
             }
         }
     }
 }
+
 
 @Composable
 fun ArticleItem(article: Article, onClick: (Article) -> Unit) {

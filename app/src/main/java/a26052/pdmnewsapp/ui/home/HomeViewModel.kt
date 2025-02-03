@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,11 +15,13 @@ class HomeViewModel @Inject constructor(
     private val repository: ArticlesRepository
 ) : ViewModel() {
 
-    private val _articles = MutableStateFlow<List<Article>>(emptyList()) // ✅ Ensure default value is empty list
-    val articles = _articles.asStateFlow()
+    private val _articles = MutableStateFlow<List<Article>>(emptyList())
+    val articles: StateFlow<List<Article>> = _articles // ✅ Expose as StateFlow
 
     init {
-        fetchArticles() // ✅ Ensure data fetching starts
+        viewModelScope.launch {
+            _articles.value = repository.getArticles() // ✅ Fetch articles
+        }
     }
 
     private fun fetchArticles() {
