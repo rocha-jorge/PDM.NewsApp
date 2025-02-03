@@ -20,8 +20,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
-            // ✅ Ensure NavGraph is displayed
-            NavGraph(navController, repository)
+            // ✅ Ensure NavGraph receives the repository
+            NavGraph(navController = navController, repository = repository)
         }
     }
 }

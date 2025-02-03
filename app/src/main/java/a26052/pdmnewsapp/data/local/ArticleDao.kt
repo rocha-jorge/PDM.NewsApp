@@ -11,11 +11,12 @@ import kotlinx.coroutines.flow.Flow
 interface ArticleDao {
 
     @Query("SELECT * FROM articles")
-    fun getSavedArticles(): Flow<List<ArticleEntity>>
+    fun getBookmarkedArticles(): Flow<List<ArticleEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertArticle(article: ArticleEntity)
 
     @Delete
     suspend fun deleteArticle(article: ArticleEntity)
+
 }

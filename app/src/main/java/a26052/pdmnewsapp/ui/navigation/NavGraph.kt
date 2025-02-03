@@ -2,11 +2,14 @@ package a26052.pdmnewsapp.ui.navigation
 
 import a26052.pdmnewsapp.domain.model.Article
 import a26052.pdmnewsapp.domain.repository.ArticlesRepository
+import a26052.pdmnewsapp.ui.bookmarks.BookmarksScreen
+import a26052.pdmnewsapp.ui.bookmarks.BookmarksViewModel
 import a26052.pdmnewsapp.ui.details.ArticleDetailScreen
 import a26052.pdmnewsapp.ui.home.HomeScreen
 import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -28,6 +31,20 @@ fun NavGraph(navController: NavHostController, repository: ArticlesRepository) {
             )
         }
 
+        composable("bookmarks") {
+            val viewModel: BookmarksViewModel = hiltViewModel()
+            BookmarksScreen(
+                navController = navController,
+                viewModel = viewModel,
+                onArticleClick = { article ->
+                    val safeArticle = article.copy(imageUrl = article.imageUrl ?: "")
+                    val articleJson = Uri.encode(Gson().toJson(safeArticle))
+                    navController.navigate("details/$articleJson")
+                }
+            )
+        }
+
+
         composable(
             route = "details/{article}",
             arguments = listOf(navArgument("article") { type = NavType.StringType })
@@ -37,7 +54,8 @@ fun NavGraph(navController: NavHostController, repository: ArticlesRepository) {
 
             Log.d("NAVIGATION", "Opened Article Detail - Title: ${article.title}, Image URL: ${article.imageUrl}")
 
-            ArticleDetailScreen(article, repository)
+            ArticleDetailScreen(article, repository) // ✅ Pass repository
         }
     }
 }
+

@@ -16,13 +16,14 @@ fun ArticleDto.toDomain(): Article {
 
 fun Article.toEntity(): ArticleEntity {
     return ArticleEntity(
-        id = this.id,
+        id = this.id ?: "",
         title = this.title,
-        description = this.description,
-        imageUrl = this.imageUrl,
-        url = this.url
+        description = this.description ?: "No description",
+        imageUrl = this.imageUrl ?: "",
+        url = this.url ?: "#"
     )
 }
+
 
 fun ArticleEntity.toDomain(): Article {
     return Article(
