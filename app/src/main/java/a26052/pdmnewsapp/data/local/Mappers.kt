@@ -6,31 +6,31 @@ import a26052.pdmnewsapp.domain.model.Article
 
 fun ArticleDto.toDomain(): Article {
     return Article(
-        id = this.id ?: "",
+        article_id= this.article_id ?: "",
         title = this.title ?: "No Title",
         description = this.description ?: "No Description",
-        imageUrl = this.imageUrl,
-        url = this.url ?: "#"
+        image_url = this.image_url,
+        link = this.link ?: "#"
     )
 }
 
 fun Article.toEntity(): ArticleEntity {
     return ArticleEntity(
-        id = this.id ?: "",
+        article_id = this.article_id.ifEmpty { link }, // ✅ Use URL as fallback if ID is empty
         title = this.title,
-        description = this.description ?: "No description",
-        imageUrl = this.imageUrl ?: "",
-        url = this.url ?: "#"
+        description = this.description ?: "No description available",
+        image_url = this.image_url,
+        link = this.link
     )
 }
 
 
 fun ArticleEntity.toDomain(): Article {
     return Article(
-        id = this.id,
+        article_id = this.article_id,
         title = this.title,
         description = this.description,
-        imageUrl = this.imageUrl,
-        url = this.url
+        image_url = this.image_url,
+        link = this.link
     )
 }

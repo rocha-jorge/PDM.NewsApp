@@ -32,7 +32,7 @@ fun ArticleDetailScreen(article: Article, repository: ArticlesRepository) {
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        article.imageUrl?.let { imageUrl ->
+        article.image_url?.let { imageUrl ->
             Image(
                 painter = rememberAsyncImagePainter(imageUrl),
                 contentDescription = "Article Image",

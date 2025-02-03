@@ -23,7 +23,7 @@ fun NavGraph(navController: NavHostController, repository: ArticlesRepository) {
         composable("home") {
             HomeScreen(
                 onArticleClick = { article ->
-                    val safeArticle = article.copy(imageUrl = article.imageUrl ?: "")
+                    val safeArticle = article.copy(image_url = article.image_url ?: "")
                     val articleJson = Uri.encode(Gson().toJson(safeArticle))
                     Log.d("NAVIGATION", "Navigating to details: $articleJson")
                     navController.navigate("details/$articleJson")
@@ -37,7 +37,7 @@ fun NavGraph(navController: NavHostController, repository: ArticlesRepository) {
                 navController = navController,
                 viewModel = viewModel,
                 onArticleClick = { article ->
-                    val safeArticle = article.copy(imageUrl = article.imageUrl ?: "")
+                    val safeArticle = article.copy(image_url = article.image_url ?: "")
                     val articleJson = Uri.encode(Gson().toJson(safeArticle))
                     navController.navigate("details/$articleJson")
                 }
@@ -52,7 +52,7 @@ fun NavGraph(navController: NavHostController, repository: ArticlesRepository) {
             val articleJson = backStackEntry.arguments?.getString("article") ?: ""
             val article = Gson().fromJson(articleJson, Article::class.java)
 
-            Log.d("NAVIGATION", "Opened Article Detail - Title: ${article.title}, Image URL: ${article.imageUrl}")
+            Log.d("NAVIGATION", "Opened Article Detail - Title: ${article.title}, Image URL: ${article.image_url}")
 
             ArticleDetailScreen(article, repository) // ✅ Pass repository
         }

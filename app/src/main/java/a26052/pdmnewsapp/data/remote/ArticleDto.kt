@@ -5,9 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ArticleDto(
-    @SerialName("article_id") val id: String?,
+    @SerialName("article_id") val article_id: String?,
     @SerialName("title") val title: String?,
     @SerialName("description") val description: String?,
-    @SerialName("image_url") val imageUrl: String?,
-    @SerialName("link") val url: String?
+    @SerialName("image_url") val image_url: String?,
+    @SerialName("link") val link: String?
 )

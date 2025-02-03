@@ -18,9 +18,11 @@ class ArticleRepositoryImpl @Inject constructor(
 
 
     override suspend fun saveArticle(article: Article) {
-        Log.d("BOOKMARK_DEBUG", "Saving article: ${article.title}, ID: ${article.id}")
-        articleDao.insertArticle(article.toEntity())
+        val safeArticle = article.copy(article_id = article.article_id.ifEmpty { article.link }) // ✅ Ensure ID exists
+        Log.d("BOOKMARK_DEBUG", "Saving article: ${safeArticle.title}, ID: ${safeArticle.article_id}")
+        articleDao.insertArticle(safeArticle.toEntity()) // ✅ Insert safe article
     }
+
 
 
     override suspend fun deleteArticle(article: Article) {

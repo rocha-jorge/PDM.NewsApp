@@ -49,7 +49,9 @@ fun ArticleItem(article: Article, onClick: (Article) -> Unit) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = article.title, style = MaterialTheme.typography.bodyLarge)
-            Text(text = article.description ?: "No Description", style = MaterialTheme.typography.bodySmall)
+            Text(
+                text = (article.description ?: "No Description").take(100),
+                style = MaterialTheme.typography.bodySmall)
         }
     }
 }

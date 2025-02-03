@@ -58,7 +58,7 @@ fun BookmarkedArticleItem(article: Article, onClick: () -> Unit) {
             .clickable { onClick() }
             .padding(8.dp)
     ) {
-        article.imageUrl?.let { imageUrl ->
+        article.image_url?.let { imageUrl ->
             Image(
                 painter = rememberAsyncImagePainter(imageUrl),
                 contentDescription = "Article Image",
