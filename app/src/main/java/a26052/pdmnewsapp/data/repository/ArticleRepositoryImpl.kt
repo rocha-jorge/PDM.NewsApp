@@ -5,8 +5,6 @@ import a26052.pdmnewsapp.data.local.ArticleEntity
 import a26052.pdmnewsapp.data.remote.ArticlesAPI
 import a26052.pdmnewsapp.domain.model.Article
 import a26052.pdmnewsapp.domain.repository.ArticlesRepository
-import a26052.pdmnewsapp.data.toEntity
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
