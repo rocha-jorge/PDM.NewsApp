@@ -4,8 +4,8 @@ import a26052.pdmnewsapp.domain.model.Article
 import kotlinx.coroutines.flow.Flow
 
 interface ArticlesRepository {
-    suspend fun getArticles(): List<Article> // Fetch articles from API
-    suspend fun saveArticle(article: Article) // ✅ Add this
-    suspend fun deleteArticle(article: Article) // ✅ Add this
-    fun getSavedArticlesFlow(): Flow<List<Article>> // ✅ Add this
+    fun getSavedArticlesFlow(): Flow<List<Article>>
+    suspend fun saveArticle(article: Article)
+    suspend fun deleteArticle(article: Article)
+    suspend fun getArticles(): List<Article> // ✅ Ensure this function is here
 }

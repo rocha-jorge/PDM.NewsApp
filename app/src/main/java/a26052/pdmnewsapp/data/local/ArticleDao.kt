@@ -1,20 +1,21 @@
 package a26052.pdmnewsapp.data.local
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ArticleDao {
 
     @Query("SELECT * FROM articles")
-    fun getAllArticlesFlow(): Flow<List<ArticleEntity>> // ✅ Fix name
+    fun getSavedArticles(): Flow<List<ArticleEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertArticle(article: ArticleEntity): Long
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(articles: List<ArticleEntity>) // ✅ Ensure this exists
+    suspend fun insertArticle(article: ArticleEntity)
 
     @Delete
-    suspend fun deleteArticle(article: ArticleEntity): Int // ✅ Ensure correct type
+    suspend fun deleteArticle(article: ArticleEntity)
 }

@@ -3,10 +3,9 @@ package a26052.pdmnewsapp.data.local
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "articles") // Ensure this annotation is present
+@Entity(tableName = "articles")
 data class ArticleEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey val id: String,
     val title: String,
     val description: String?,
     val imageUrl: String?,
