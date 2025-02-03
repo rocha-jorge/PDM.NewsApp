@@ -40,7 +40,11 @@ fun ArticleDetailScreen(article: Article, repository: ArticlesRepository) {
             )
         }
 
-        Text(text = article.description ?: "No Description", style = MaterialTheme.typography.bodySmall, fontSize = 16.sp,
+        Text(
+            text = article.description ?: "No Description",
+            style = MaterialTheme.typography.bodySmall,
+            fontSize = 16.sp,
+            modifier = Modifier.padding(12.dp)
         )
 
         Button(
